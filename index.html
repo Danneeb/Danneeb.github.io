@@ -3,14 +3,708 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Daniel Bengtsson - My projects</title>
-    <link rel="stylesheet" href="./css/main.css" />
+    <title>Daniel Bengtsson - Full Stack Developer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=JetBrains+Mono:wght@400;500&family=DM+Sans:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg-primary: #0a0a0a;
+        --bg-secondary: #141414;
+        --bg-tertiary: #1a1a1a;
+        --text-primary: #e8e8e8;
+        --text-secondary: #a0a0a0;
+        --accent-primary: #ff8c42;
+        --accent-secondary: #ffa366;
+        --accent-tertiary: #ff6b1a;
+        --border-color: #2a2a2a;
+        --code-bg: #0f0f0f;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "DM Sans", sans-serif;
+        background: var(--bg-primary);
+        color: var(--text-primary);
+        line-height: 1.6;
+        overflow-x: hidden;
+      }
+
+      /* Animated background gradient */
+      body::before {
+        content: "";
+        position: fixed;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(
+            circle at 20% 80%,
+            rgba(255, 140, 66, 0.03) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 80% 20%,
+            rgba(255, 107, 26, 0.04) 0%,
+            transparent 50%
+          );
+        animation: gradientShift 20s ease infinite;
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      @keyframes gradientShift {
+        0%,
+        100% {
+          transform: translate(0, 0) rotate(0deg);
+        }
+        50% {
+          transform: translate(5%, 5%) rotate(5deg);
+        }
+      }
+
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 2rem;
+        position: relative;
+        z-index: 1;
+      }
+
+      /* Header */
+      header {
+        padding: 4rem 0 2rem;
+        border-bottom: 1px solid var(--border-color);
+        margin-bottom: 4rem;
+        opacity: 0;
+        animation: fadeInUp 0.8s ease forwards;
+      }
+
+      @keyframes fadeInUp {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+      }
+
+      .header-content {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 4rem;
+        align-items: start;
+      }
+
+      h1 {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(3rem, 8vw, 6rem);
+        font-weight: 900;
+        line-height: 0.95;
+        letter-spacing: -0.03em;
+        margin-bottom: 1rem;
+        background: linear-gradient(
+          135deg,
+          var(--text-primary) 0%,
+          var(--accent-secondary) 100%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .tagline {
+        font-size: 1.25rem;
+        color: var(--text-secondary);
+        font-weight: 400;
+        margin-bottom: 2rem;
+      }
+
+      .contact-links {
+        display: flex;
+        gap: 2rem;
+        flex-wrap: wrap;
+      }
+
+      .contact-links a {
+        color: var(--text-secondary);
+        text-decoration: none;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+        position: relative;
+      }
+
+      .contact-links a::after {
+        content: "";
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: var(--accent-primary);
+        transition: width 0.3s ease;
+      }
+
+      .contact-links a:hover {
+        color: var(--accent-primary);
+      }
+
+      .contact-links a:hover::after {
+        width: 100%;
+      }
+
+      .download-resume {
+        padding: 1rem 2rem;
+        background: var(--accent-primary);
+        color: var(--bg-primary);
+        border: none;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.9rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      .download-resume:hover {
+        background: var(--accent-tertiary);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(255, 140, 66, 0.3);
+      }
+
+      /* Main Grid Layout */
+      .main-grid {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        gap: 4rem;
+        margin-bottom: 4rem;
+      }
+
+      /* Sections */
+      section {
+        margin-bottom: 4rem;
+        opacity: 0;
+        animation: fadeInUp 0.8s ease forwards;
+      }
+
+      section:nth-child(2) {
+        animation-delay: 0.1s;
+      }
+      section:nth-child(3) {
+        animation-delay: 0.2s;
+      }
+      section:nth-child(4) {
+        animation-delay: 0.3s;
+      }
+
+      .section-title {
+        font-family: "Playfair Display", serif;
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 2rem;
+        color: var(--text-primary);
+        position: relative;
+        display: inline-block;
+      }
+
+      .section-title::after {
+        content: "";
+        position: absolute;
+        bottom: -8px;
+        left: 0;
+        width: 60px;
+        height: 3px;
+        background: var(--accent-primary);
+      }
+
+      /* About Section */
+      .about-text {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        color: var(--text-secondary);
+        margin-bottom: 2rem;
+      }
+
+      .about-text strong {
+        color: var(--text-primary);
+        font-weight: 500;
+      }
+
+      /* Tech Stack */
+      .tech-stack {
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-color);
+        border-radius: 4px;
+        padding: 2rem;
+        position: sticky;
+        top: 2rem;
+      }
+
+      .tech-category {
+        margin-bottom: 2.5rem;
+      }
+
+      .tech-category:last-child {
+        margin-bottom: 0;
+      }
+
+      .tech-category h3 {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.85rem;
+        color: var(--accent-primary);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin-bottom: 1rem;
+        font-weight: 500;
+      }
+
+      .tech-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+      }
+
+      .tech-item {
+        background: var(--code-bg);
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.85rem;
+        color: var(--text-primary);
+        border: 1px solid var(--border-color);
+        transition: all 0.2s ease;
+      }
+
+      .tech-item:hover {
+        border-color: var(--accent-primary);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(255, 140, 66, 0.2);
+      }
+
+      /* Experience */
+      .experience-item {
+        margin-bottom: 3rem;
+        padding-bottom: 3rem;
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      .experience-item:last-child {
+        border-bottom: none;
+      }
+
+      .experience-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: start;
+        margin-bottom: 1rem;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+
+      .experience-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--text-primary);
+      }
+
+      .experience-company {
+        color: var(--accent-primary);
+        font-weight: 500;
+      }
+
+      .experience-date {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+      }
+
+      .experience-description {
+        color: var(--text-secondary);
+        line-height: 1.8;
+        margin-bottom: 1rem;
+      }
+
+      .experience-tech {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+
+      .experience-tech span {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.75rem;
+        color: var(--accent-secondary);
+        background: var(--code-bg);
+        padding: 0.25rem 0.75rem;
+        border-radius: 3px;
+      }
+
+      /* Projects */
+      .projects-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+      }
+
+      .project-card {
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-color);
+        border-radius: 4px;
+        padding: 2rem;
+        transition: all 0.3s ease;
+        cursor: pointer;
+      }
+
+      .project-card:hover {
+        border-color: var(--accent-primary);
+        transform: translateY(-4px);
+        box-shadow: 0 12px 32px rgba(255, 140, 66, 0.15);
+      }
+
+      .project-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        color: var(--text-primary);
+      }
+
+      .project-description {
+        color: var(--text-secondary);
+        margin-bottom: 1.5rem;
+        line-height: 1.7;
+      }
+
+      .project-links {
+        display: flex;
+        gap: 1.5rem;
+      }
+
+      .project-link {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.85rem;
+        color: var(--accent-primary);
+        text-decoration: none;
+        transition: color 0.2s ease;
+      }
+
+      .project-link:hover {
+        color: var(--accent-secondary);
+      }
+
+      /* Footer */
+      footer {
+        border-top: 1px solid var(--border-color);
+        padding: 3rem 0;
+        text-align: center;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+      }
+
+      /* Responsive */
+      @media (max-width: 1024px) {
+        .main-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .tech-stack {
+          position: static;
+        }
+
+        .header-content {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          padding: 0 1.5rem;
+        }
+
+        h1 {
+          font-size: 3rem;
+        }
+
+        .section-title {
+          font-size: 2rem;
+        }
+
+        .projects-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Scroll animations */
+      @media (prefers-reduced-motion: no-preference) {
+        .fade-in-section {
+          opacity: 0;
+          transform: translateY(30px);
+          transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in-section.visible {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    </style>
   </head>
   <body>
-    <div class="container d-flex">
-      <picture class="">
-        <img src="./pics/Nintendo.svg" alt="" class="img-fluid" id="picture" />
-      </picture>
+    <div class="container">
+      <header>
+        <div class="header-content">
+          <div>
+            <h1>Daniel Bengtsson</h1>
+            <p class="tagline">
+              Full Stack Developer specializing in Java, React & SQL
+            </p>
+            <div class="contact-links">
+              <a href="mailto:daniel.bengtson91@gmail.com"
+                >daniel.bengtson91@gmail.com</a
+              >
+              <a
+                href="https://www.linkedin.com/in/daniel-bengtsson-0baa881a3/"
+                target="_blank"
+                >LinkedIn</a
+              >
+              <a href="https://github.com/Danneeb" target="_blank">Github</a>
+            </div>
+          </div>
+          <div>
+            <a href="#" class="download-resume">Download Resume</a>
+          </div>
+        </div>
+      </header>
+
+      <div class="main-grid">
+        <aside>
+          <div class="tech-stack">
+            <h2
+              class="section-title"
+              style="font-size: 1.75rem; margin-bottom: 2rem"
+            >
+              Stack
+            </h2>
+
+            <div class="tech-category">
+              <h3>Backend</h3>
+              <div class="tech-list">
+                <span class="tech-item">Java</span>
+                <span class="tech-item">Spring Boot</span>
+                <span class="tech-item">Node.js</span>
+                <span class="tech-item">REST APIs</span>
+                <span class="tech-item">Microservices</span>
+              </div>
+            </div>
+
+            <div class="tech-category">
+              <h3>Frontend</h3>
+              <div class="tech-list">
+                <span class="tech-item">React</span>
+                <span class="tech-item">JavaScript</span>
+                <span class="tech-item">TypeScript</span>
+                <span class="tech-item">HTML/CSS</span>
+                <span class="tech-item">Redux</span>
+              </div>
+            </div>
+
+            <div class="tech-category">
+              <h3>Database</h3>
+              <div class="tech-list">
+                <span class="tech-item">PostgreSQL</span>
+                <span class="tech-item">MySQL</span>
+                <span class="tech-item">MongoDB</span>
+                <span class="tech-item">Redis</span>
+              </div>
+            </div>
+
+            <div class="tech-category">
+              <h3>Tools & Other</h3>
+              <div class="tech-list">
+                <span class="tech-item">Git</span>
+                <span class="tech-item">Docker</span>
+                <span class="tech-item">AWS</span>
+                <span class="tech-item">Jenkins</span>
+                <span class="tech-item">Agile</span>
+              </div>
+            </div>
+          </div>
+        </aside>
+
+        <main>
+          <section class="fade-in-section">
+            <h2 class="section-title">About</h2>
+            <p class="about-text">
+              Full-stack developer with
+              <strong>5+ years of experience</strong> building scalable web
+              applications. I specialize in creating robust backend systems with
+              Java and Spring Boot, coupled with modern, responsive frontends
+              using React.
+            </p>
+            <p class="about-text">
+              Passionate about <strong>clean code</strong>,
+              <strong>database optimization</strong>, and delivering
+              user-centric solutions. I thrive in collaborative environments
+              where I can contribute to both architecture decisions and hands-on
+              implementation.
+            </p>
+          </section>
+
+          <section class="fade-in-section">
+            <h2 class="section-title">Experience</h2>
+
+            <div class="experience-item">
+              <div class="experience-header">
+                <div>
+                  <h3 class="experience-title">Senior Full Stack Developer</h3>
+                  <p class="experience-company">Tech Company Inc.</p>
+                </div>
+                <span class="experience-date">2022 - Present</span>
+              </div>
+              <p class="experience-description">
+                Led development of a microservices-based e-commerce platform
+                serving 100k+ daily users. Architected RESTful APIs using Spring
+                Boot and designed responsive React interfaces, improving page
+                load times by 40%.
+              </p>
+              <div class="experience-tech">
+                <span>Java</span>
+                <span>Spring Boot</span>
+                <span>React</span>
+                <span>PostgreSQL</span>
+                <span>AWS</span>
+              </div>
+            </div>
+
+            <div class="experience-item">
+              <div class="experience-header">
+                <div>
+                  <h3 class="experience-title">Full Stack Developer</h3>
+                  <p class="experience-company">Startup XYZ</p>
+                </div>
+                <span class="experience-date">2020 - 2022</span>
+              </div>
+              <p class="experience-description">
+                Built and maintained multiple client-facing applications using
+                Java backend services and React frontends. Optimized SQL queries
+                reducing database load by 35% and implemented caching strategies
+                with Redis.
+              </p>
+              <div class="experience-tech">
+                <span>Java</span>
+                <span>React</span>
+                <span>MySQL</span>
+                <span>Redis</span>
+                <span>Docker</span>
+              </div>
+            </div>
+
+            <div class="experience-item">
+              <div class="experience-header">
+                <div>
+                  <h3 class="experience-title">Junior Developer</h3>
+                  <p class="experience-company">Digital Agency</p>
+                </div>
+                <span class="experience-date">2019 - 2020</span>
+              </div>
+              <p class="experience-description">
+                Developed responsive web applications and contributed to both
+                frontend and backend development. Collaborated with designers to
+                implement pixel-perfect UI components and worked on database
+                schema design and optimization.
+              </p>
+              <div class="experience-tech">
+                <span>JavaScript</span>
+                <span>React</span>
+                <span>Node.js</span>
+                <span>MongoDB</span>
+              </div>
+            </div>
+          </section>
+
+          <section class="fade-in-section">
+            <h2 class="section-title">Featured Projects</h2>
+
+            <div class="projects-grid">
+              <div class="project-card">
+                <h3 class="project-title">Task Management System</h3>
+                <p class="project-description">
+                  Full-stack application with Java Spring Boot backend and React
+                  frontend. Features real-time updates, role-based access
+                  control, and PostgreSQL database.
+                </p>
+                <div class="project-links">
+                  <a href="#" class="project-link">View Project →</a>
+                  <a href="#" class="project-link">GitHub →</a>
+                </div>
+              </div>
+
+              <div class="project-card">
+                <h3 class="project-title">Analytics Dashboard</h3>
+                <p class="project-description">
+                  Interactive data visualization dashboard built with React and
+                  D3.js, powered by a Java REST API with complex SQL
+                  aggregations.
+                </p>
+                <div class="project-links">
+                  <a href="#" class="project-link">View Project →</a>
+                  <a href="#" class="project-link">GitHub →</a>
+                </div>
+              </div>
+
+              <div class="project-card">
+                <h3 class="project-title">E-Commerce API</h3>
+                <p class="project-description">
+                  RESTful API built with Spring Boot featuring JWT
+                  authentication, payment integration, and optimized MySQL
+                  queries for inventory management.
+                </p>
+                <div class="project-links">
+                  <a href="#" class="project-link">GitHub →</a>
+                </div>
+              </div>
+            </div>
+          </section>
+        </main>
+      </div>
+
+      <footer>
+        <p>© 2026 Your Name. Built with HTML, CSS, and attention to detail.</p>
+      </footer>
     </div>
+
+    <script>
+      // Intersection Observer for scroll animations
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: "0px 0px -100px 0px",
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+          }
+        });
+      }, observerOptions);
+
+      document.querySelectorAll(".fade-in-section").forEach((section) => {
+        observer.observe(section);
+      });
+    </script>
   </body>
 </html>
